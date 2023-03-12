@@ -11,7 +11,6 @@ searchForm.addEventListener('submit', async (e) => {
   const response = await fetch(`https://api.github.com/search/repositories?q=${request.name}`);
   console.log(response);
 
-
   if (response.ok) {
     const data = await response.json();
 
@@ -23,11 +22,10 @@ searchForm.addEventListener('submit', async (e) => {
     }
     searchInput.value = '';
     data.items.length = 0;
-    console.log(data)
   } else {
     createErrorMessage();
   }
-})
+});
 
 const searchInput = document.createElement('input');
 searchInput.classList.add('search__input');
@@ -36,7 +34,7 @@ searchInput.setAttribute('name', 'name');
 const searchButton = document.createElement('button');
 searchButton.classList.add('search__button');
 searchButton.setAttribute('type', 'submit');
-searchButton.innerHTML = 'Search'
+searchButton.innerHTML = 'Search';
 
 searchForm.appendChild(searchInput);
 searchForm.appendChild(searchButton);
@@ -46,7 +44,6 @@ searchSection.appendChild(searchForm);
 function createSearchResultItem(data) {
   const resultSection = document.querySelector('.wrapper_result');
   for (let item of data.items) {
-    console.log(item)
     const resultItem = document.createElement('div');
     resultItem.classList.add('result-item');
     resultItem.innerHTML = `
