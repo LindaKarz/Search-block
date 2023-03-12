@@ -18,6 +18,7 @@ searchForm.addEventListener('submit', async (e) => {
       if (document.querySelector('.error')) removeErrorMessage();
       createSearchResultItem(data);
     }
+    searchInput.value = '';
   } else {
     createErrorMessage();
   }
