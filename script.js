@@ -12,14 +12,15 @@ searchForm.addEventListener('submit', async (e) => {
 
   if (response.ok) {
     const data = await response.json();
-    console.log(data)
-    //Create search result item
-    createSearchResultItem(data);
-
+    if (data.items.length === 0) {
+      createErrorMessage();
+    } else {
+      if (document.querySelector('.error')) removeErrorMessage();
+      createSearchResultItem(data);
+    }
   } else {
-    alert('Репозиторий не найден')
+    createErrorMessage();
   }
-  
 })
 
 const searchInput = document.createElement('input');
@@ -50,5 +51,16 @@ function createSearchResultItem(data) {
     `
     resultSection.appendChild(resultItem)
   }
-  
+}
+
+function createErrorMessage() {
+  const errorMessage = document.createElement('div');
+  errorMessage.classList.add('error');
+  errorMessage.innerHTML = 'Repositories not found';
+  searchForm.appendChild(errorMessage);
+}
+
+function removeErrorMessage() {
+  errorMessage = document.querySelector('.error');
+  errorMessage.innerHTML = '';
 }
