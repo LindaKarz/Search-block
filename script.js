@@ -43,8 +43,10 @@ function createSearchResultItem(data) {
     const resultItem = document.createElement('div');
     resultItem.classList.add('result-item');
     resultItem.innerHTML = `
-    <a href="${item.clone_url}" target="_blank"><p class='result-item__name'>${item.name}</p></a>
+    <a href="${item.clone_url}" class="result-item__link" target="_blank"><p class='result-item__name'>${item.name}</p></a>
     <p class='result-item__description'>${item.description}</p>
+    <p class='result-item__language'>Language: ${item.language}</p>
+    <p class='result-item__visiblity'>Visiblity: ${item.visibility}</p>
     `
     resultSection.appendChild(resultItem)
   }
