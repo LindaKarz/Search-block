@@ -6,12 +6,15 @@ searchForm.classList.add('search__form');
 //Вешаем событие, не забывать что у кнопки должен быть тип submit
 searchForm.addEventListener('submit', async (e) => {
   e.preventDefault();//чтобы при клике на кнопку форма не обновлялась
-
+  if (document.querySelector('.result-item')) deletePrevSearchResult();
   const request = Object.fromEntries(new FormData(e.target));
   const response = await fetch(`https://api.github.com/search/repositories?q=${request.name}`);
+  console.log(response);
+
 
   if (response.ok) {
     const data = await response.json();
+
     if (data.items.length === 0) {
       createErrorMessage();
     } else {
@@ -19,6 +22,8 @@ searchForm.addEventListener('submit', async (e) => {
       createSearchResultItem(data);
     }
     searchInput.value = '';
+    data.items.length = 0;
+    console.log(data)
   } else {
     createErrorMessage();
   }
@@ -64,4 +69,11 @@ function createErrorMessage() {
 function removeErrorMessage() {
   errorMessage = document.querySelector('.error');
   errorMessage.innerHTML = '';
+}
+
+function deletePrevSearchResult() {
+  let items = document.querySelectorAll('.result-item');
+  for (let item of items) {
+    item.remove();
+  }
 }
