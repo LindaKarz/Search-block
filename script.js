@@ -9,20 +9,19 @@ searchForm.addEventListener('submit', async (e) => {
   if (document.querySelector('.result-item')) deletePrevSearchResult();
   const request = Object.fromEntries(new FormData(e.target));
   const response = await fetch(`https://api.github.com/search/repositories?q=${request.name}`);
-  console.log(response);
 
   if (response.ok) {
     const data = await response.json();
-
-    if (data.items.length === 0) {
+    if (document.querySelector('.error')) removeErrorMessage();
+    if (data.items.length === 0 || searchInput.value.length < 2) {
       createErrorMessage();
     } else {
-      if (document.querySelector('.error')) removeErrorMessage();
       createSearchResultItem(data);
     }
     searchInput.value = '';
     data.items.length = 0;
   } else {
+    if (document.querySelector('.error')) removeErrorMessage();
     createErrorMessage();
   }
 });
@@ -64,8 +63,10 @@ function createErrorMessage() {
 }
 
 function removeErrorMessage() {
-  errorMessage = document.querySelector('.error');
-  errorMessage.innerHTML = '';
+  errorMessage = document.querySelectorAll('.error');
+  for (let item of errorMessage) {
+    item.remove();
+  }
 }
 
 function deletePrevSearchResult() {
